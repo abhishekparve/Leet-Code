@@ -1,0 +1,95 @@
+class heap:
+    def __init__(self):
+        self.arr = []
+     
+    def tranformToHeap(self, arr, n, index):
+        largest = index
+        left = 2 * index + 1
+        right = 2 * index + 2
+        if (left < n and arr[largest] < arr[left]):
+            largest = left
+        elif (right < n and arr[largest] < arr[right]):
+            largest = right
+        
+        if largest != index:
+            arr[largest], arr[index] = arr[index], arr[largest]
+            self.tranformToHeap(arr, n, largest)
+        
+    def heapify(self, arr):
+        n = len(arr)
+        for i in range((n//2) - 1, - 1, -1):
+            self.tranformToHeap(arr, n, i)
+    
+    def heapSort(self, arr):
+        n = len(arr)
+        # Step 1 : Heap creation
+        self.heapify(arr)
+        for i in range(n - 1, 0, -1):
+            # Step 2 : Swap
+            arr[0], arr[i] = arr[i], arr[0]
+            # place the node in correct order
+            self.tranformToHeap(arr, i, 0)
+            
+    
+    # TC = O(log n)   
+    def insert(self, val):
+        self.arr.append(val)
+        index = len(self.arr) - 1
+        while index > 0:
+            parent = (index - 1)//2
+            print(parent)
+            if self.arr[parent] < self.arr[index]:
+                self.arr[parent], self.arr[index] = self.arr[index], self.arr[parent]
+                index = parent
+            else:
+                return
+    # TC = O(log n)
+    def delete(self):
+        if len(self.arr) == 0:
+            print("Nothing to delete")
+            return
+        n = len(self.arr)
+        lastIndex = len(self.arr) - 1
+        # Assigning the last index value to the first index
+        self.arr[0] = self.arr[lastIndex]
+        self.arr.pop()
+        index = 0
+        n = len(self.arr)  # Update length
+        # comparing the first index value with both leftIndex and rightIndex
+        while index < len(self.arr):
+            leftIndex = 2 * index + 1
+            rightIndex = 2 * index + 2
+            if leftIndex < n and self.arr[index] < self.arr[leftIndex]:
+                self.arr[leftIndex], self.arr[index] = self.arr[index], self.arr[leftIndex]
+                index = leftIndex
+            elif rightIndex < n and self.arr[index] < self.arr[rightIndex]:
+                self.arr[rightIndex], self.arr[index] = self.arr[index], self.arr[rightIndex]
+                index = rightIndex
+            else:
+                return
+            
+    def printHeap(self):
+        print(self.arr)
+
+answer = heap()
+answer.insert(50)
+answer.insert(54)
+answer.insert(53)
+answer.insert(52)
+answer.insert(55)
+answer.insert(70)
+answer.printHeap()
+answer.delete()
+answer.printHeap()
+print("===========Heapify===========")
+arr = [64, 65, 63, 62, 60]
+answer.heapify(arr)
+print(arr)
+print("===========Heap Sort===========")
+arr2 = [12, 11, 13, 5, 6, 7]
+answer.heapSort(arr2)
+print(arr2)
+        
+
+         
+        
